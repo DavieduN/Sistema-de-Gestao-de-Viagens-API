@@ -42,4 +42,18 @@ public class ViagemService {
                         HttpStatus.NOT_FOUND, "Viagem de número " + numero + " não encontrada."
                 ));
     }
+
+    public Viagem atualizar(Viagem viagem, ViagemForm viagemForm, Empregado empregado) {
+        if (viagemForm.getDataRetorno().isBefore(viagemForm.getDataSaida())) {
+            throw new IllegalArgumentException("A data de retorno deve ser igual ou posterior à data de saída.");
+        }
+        viagem.setDestino(viagemForm.getDestino());
+        viagem.setDataSaida(viagemForm.getDataSaida());
+        viagem.setDataRetorno(viagemForm.getDataRetorno());
+        viagem.setMotivo(viagemForm.getMotivo());
+        viagem.setMeioTransporte(viagemForm.getMeioTransporte());
+        viagem.setEmpregado(empregado);
+
+        return viagemRepository.save(viagem);
+    }
 }

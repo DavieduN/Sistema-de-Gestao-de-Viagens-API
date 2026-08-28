@@ -34,4 +34,7 @@ public class Viagem {
     @ManyToOne(optional = false)
     @JoinColumn(name = "empregado_matricula", nullable = false)
     private Empregado empregado;
+
+    @Column(nullable = false, length = 50)
+    private String situacao = "Rascunho";
 }

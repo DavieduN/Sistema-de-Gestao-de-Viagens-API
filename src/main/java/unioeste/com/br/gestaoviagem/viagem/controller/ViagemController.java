@@ -38,4 +38,15 @@ public class ViagemController {
         Viagem viagem = viagemService.buscarPorId(numero);
         return ResponseEntity.ok(viagem);
     }
+
+    @PutMapping("/{numero}")
+    public ResponseEntity<Viagem> atualizar(
+            @PathVariable Long numero,
+            @Valid @RequestBody ViagemForm viagemForm) {
+
+        Viagem viagem = viagemService.buscarPorId(numero);
+        Empregado empregado = empregadoService.buscarPorMatricula(viagemForm.getEmpregadoMatricula());
+        Viagem viagemAtualizada = viagemService.atualizar(viagem, viagemForm, empregado);
+        return ResponseEntity.ok(viagemAtualizada);
+    }
 }
