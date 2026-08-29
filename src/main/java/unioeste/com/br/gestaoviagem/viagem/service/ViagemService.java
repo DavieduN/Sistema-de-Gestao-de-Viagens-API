@@ -56,4 +56,8 @@ public class ViagemService {
 
         return viagemRepository.save(viagem);
     }
+
+    public void deletar(Viagem viagem) {
+        viagemRepository.delete(viagem);
+    }
 }

@@ -49,4 +49,11 @@ public class ViagemController {
         Viagem viagemAtualizada = viagemService.atualizar(viagem, viagemForm, empregado);
         return ResponseEntity.ok(viagemAtualizada);
     }
+
+    @DeleteMapping("/{numero}")
+    public ResponseEntity<Void> deletar(@PathVariable Long numero) {
+        Viagem viagem = viagemService.buscarPorId(numero);
+        viagemService.deletar(viagem);
+        return ResponseEntity.noContent().build();
+    }
 }
