@@ -15,10 +15,10 @@ public class ViagemForm {
     private LocalDate dataSaida;
     @NotNull
     private LocalDate dataRetorno;
-    @NotBlank
-    private String motivo;
-    @NotBlank
-    private String meioTransporte;
-    @NotBlank
-    private String empregadoMatricula;
+
+    @NotNull(message = "O ID do motivo é obrigatório")
+    private Integer motivoId;
+
+    @NotNull(message = "O ID do meio de transporte é obrigatório")
+    private Integer meioTransporteId;
 }
