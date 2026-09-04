@@ -1,4 +1,7 @@
 spring:
+  flyway:
+    schemas: [ svg ]
+    default-schema: svg
   application:
     name: gestaoviagem
   datasource:
@@ -9,6 +12,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        default_schema: svg
 api:
   security:
     token:
