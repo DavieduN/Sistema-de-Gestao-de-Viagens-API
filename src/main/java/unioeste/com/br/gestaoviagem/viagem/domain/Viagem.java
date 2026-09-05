@@ -2,16 +2,23 @@ package unioeste.com.br.gestaoviagem.viagem.domain;
 
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import unioeste.com.br.gestaoviagem.area.domain.Area;
+import unioeste.com.br.gestaoviagem.cargo.domain.Cargo;
 import unioeste.com.br.gestaoviagem.empregado.domain.Empregado;
+import unioeste.com.br.gestaoviagem.meiotransporte.domain.MeioTransporte;
+import unioeste.com.br.gestaoviagem.motivo.domain.Motivo;
+import unioeste.com.br.gestaoviagem.situacao.domain.Situacao;
 
 import java.time.LocalDate;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "viagem")
-@Getter @Setter
 public class Viagem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long numero;
@@ -25,16 +32,27 @@ public class Viagem {
     @Column(name = "data_retorno", nullable = false)
     private LocalDate dataRetorno;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String motivo;
-
-    @Column(name = "meio_transporte", nullable = false, length = 100)
-    private String meioTransporte;
-
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "empregado_matricula", nullable = false)
-    private Empregado empregado;
+    private Empregado solicitante;
 
-    @Column(nullable = false, length = 50)
-    private String situacao = "Rascunho";
+    @ManyToOne
+    @JoinColumn(name = "motivo_id", nullable = false)
+    private Motivo motivo;
+
+    @ManyToOne
+    @JoinColumn(name = "meio_transporte_id", nullable = false)
+    private MeioTransporte meioTransporte;
+
+    @ManyToOne
+    @JoinColumn(name = "situacao_id", nullable = false)
+    private Situacao situacao;
+
+    @ManyToOne
+    @JoinColumn(name = "empregado_cargo_id")
+    private Cargo cargoSnapshot;
+
+    @ManyToOne
+    @JoinColumn(name = "empregado_area_id")
+    private Area areaSnapshot;
 }
