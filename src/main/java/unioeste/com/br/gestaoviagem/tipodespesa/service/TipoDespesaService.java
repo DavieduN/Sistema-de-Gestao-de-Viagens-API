@@ -19,4 +19,8 @@ public class TipoDespesaService {
                         HttpStatus.NOT_FOUND, "Tipo de despesa não encontrado."
                 ));
     }
+
+    public List<TipoDespesa> listarTodos() {
+        return tipoDespesaRepository.findAll();
+    }
 }
