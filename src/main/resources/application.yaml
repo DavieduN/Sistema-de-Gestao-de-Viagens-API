@@ -19,3 +19,8 @@ api:
   security:
     token:
       secret: ${JWT_SECRET}
+
+admim:
+  matricula: ${ADMIN_MATRICULA}
+  nome: ${ADMIN_NOME}
+  senha: ${ADMIN_SENHA}
