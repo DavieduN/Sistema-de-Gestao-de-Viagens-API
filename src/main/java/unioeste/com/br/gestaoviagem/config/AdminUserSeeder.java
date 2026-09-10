@@ -63,9 +63,9 @@ public class AdminUserSeeder implements CommandLineRunner {
 
             empregadoRepository.save(admin);
 
-            System.out.println("✅ Usuário Admin criado com sucesso!");
+            System.out.println("Usuário Admin criado com sucesso!");
         } else {
-            System.out.println("⚡ Usuário Admin já existente. Inicialização ignorada.");
+            System.out.println("Usuário Admin já existente. Inicialização ignorada.");
         }
     }
 }
