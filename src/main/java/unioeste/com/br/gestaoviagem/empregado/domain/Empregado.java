@@ -1,5 +1,6 @@
 package unioeste.com.br.gestaoviagem.empregado.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,33 +35,41 @@ public class Empregado implements UserDetails {
     private Area area;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String senha;
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Transforma o Cargo (Colaborador/Gestor) em uma ROLE do Spring
         return List.of(new SimpleGrantedAuthority("ROLE_" + this.cargo.getNome().toUpperCase()));
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return this.senha;
     }
 
     @Override
+    @JsonIgnore
     public String getUsername() {
         return this.matricula;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() { return true; }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() { return true; }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() { return true; }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() { return true; }
 }

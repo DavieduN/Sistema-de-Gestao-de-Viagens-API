@@ -20,8 +20,6 @@ import java.util.List;
 @AllArgsConstructor
 public class EmpregadoController {
     private final EmpregadoService empregadoService;
-
-    // Injeção das services de apoio para orquestração
     private final CargoService cargoService;
     private final AreaService areaService;
 

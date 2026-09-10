@@ -18,7 +18,6 @@ import java.util.List;
 public class EmpregadoService {
     private final EmpregadoRepository empregadoRepository;
 
-    // Injetando o encoder do Spring Security
     private final PasswordEncoder passwordEncoder;
 
     public Empregado criar(EmpregadoForm form, Cargo cargo, Area area) {
