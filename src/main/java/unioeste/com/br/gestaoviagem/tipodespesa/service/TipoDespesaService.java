@@ -7,6 +7,8 @@ import org.springframework.web.server.ResponseStatusException;
 import unioeste.com.br.gestaoviagem.tipodespesa.domain.TipoDespesa;
 import unioeste.com.br.gestaoviagem.tipodespesa.repository.TipoDespesaRepository;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class TipoDespesaService {
