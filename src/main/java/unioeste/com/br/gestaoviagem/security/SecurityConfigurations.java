@@ -29,11 +29,12 @@ public class SecurityConfigurations {
                     req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
 
                     req.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
-                    req.requestMatchers(HttpMethod.POST, "/empregado").permitAll();
 
+                    req.requestMatchers(HttpMethod.GET, "/viagem").hasRole("GESTOR");
                     req.requestMatchers(HttpMethod.POST, "/cargo/**", "/area/**").hasRole("GESTOR");
                     req.requestMatchers(HttpMethod.PUT, "/cargo/**", "/area/**").hasRole("GESTOR");
                     req.requestMatchers(HttpMethod.DELETE, "/cargo/**", "/area/**").hasRole("GESTOR");
+                    req.requestMatchers(HttpMethod.GET, "/indicadores").hasRole("GESTOR");
 
                     req.anyRequest().authenticated();
                 })

@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import unioeste.com.br.gestaoviagem.despesa.domain.Despesa;
+import unioeste.com.br.gestaoviagem.despesa.service.DespesaService;
 import unioeste.com.br.gestaoviagem.empregado.domain.Empregado;
 import unioeste.com.br.gestaoviagem.empregado.service.EmpregadoService;
 import unioeste.com.br.gestaoviagem.historicostatusviagem.service.HistoricoStatusViagemService;
@@ -31,8 +33,8 @@ public class ViagemController {
     private final MotivoService motivoService;
     private final MeioTransporteService transporteService;
     private final SituacaoService situacaoService;
-
     private final HistoricoStatusViagemService historicoService;
+    private final DespesaService despesaService;
 
     @PostMapping
     public ResponseEntity<Viagem> criar(@Valid @RequestBody ViagemForm form, @AuthenticationPrincipal Empregado empregadoLogado) {
@@ -99,8 +101,25 @@ public class ViagemController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Viagem>> listarTodas() {
-        return ResponseEntity.ok(viagemService.listarTodas());
+    public ResponseEntity<List<ViagemDTO>> listarTodas(ViagemParams params) {
+        return ResponseEntity.ok(viagemService.listar(params, null)
+                                .stream()
+                                .map(viagem -> {
+                                    List<Despesa> despesas = despesaService.listarPorViagem(viagem);
+                                    return new ViagemDTO(viagem, despesas);
+                                }).toList()
+        );
+    }
+
+    @GetMapping("/empregado")
+    public ResponseEntity<List<ViagemDTO>> listarPorEmpregado(ViagemParams params, @AuthenticationPrincipal Empregado empregadoLogado) {
+        return ResponseEntity.ok(viagemService.listar(params, empregadoLogado.getMatricula())
+                .stream()
+                .map(viagem -> {
+                    List<Despesa> despesas = despesaService.listarPorViagem(viagem);
+                    return new ViagemDTO(viagem, despesas);
+                }).toList()
+        );
     }
 
     @GetMapping("/{numero}")
@@ -108,20 +127,15 @@ public class ViagemController {
         return ResponseEntity.ok(viagemService.buscarPorId(numero));
     }
 
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<Viagem>> listarPorStatus(@PathVariable String status) {
+        return ResponseEntity.ok(viagemService.listarPorStatus(status));
+    }
+
     @DeleteMapping("/{numero}")
     public ResponseEntity<Void> deletar(@PathVariable Long numero) {
         Viagem viagem = viagemService.buscarPorId(numero);
         viagemService.deletar(viagem);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/empregado")
-    public ResponseEntity<List<Viagem>> listarPorEmpregado(@AuthenticationPrincipal Empregado empregadoLogado) {
-        return ResponseEntity.ok(viagemService.listarPorEmpregado(empregadoLogado.getMatricula()));
-    }
-
-    @GetMapping("/status/{status}")
-    public ResponseEntity<List<Viagem>> listarPorStatus(@PathVariable String status) {
-        return ResponseEntity.ok(viagemService.listarPorStatus(status));
     }
 }

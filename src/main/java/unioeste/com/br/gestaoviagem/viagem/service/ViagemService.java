@@ -1,6 +1,7 @@
 package unioeste.com.br.gestaoviagem.viagem.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import unioeste.com.br.gestaoviagem.situacao.domain.Situacao;
 import unioeste.com.br.gestaoviagem.situacao.repository.SituacaoRepository;
 import unioeste.com.br.gestaoviagem.viagem.domain.*;
 import unioeste.com.br.gestaoviagem.viagem.repository.*;
+import unioeste.com.br.gestaoviagem.viagem.specification.ViagemSpecification;
 
 import java.util.List;
 
@@ -82,8 +84,9 @@ public class ViagemService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Viagem não encontrada."));
     }
 
-    public List<Viagem> listarTodas() {
-        return viagemRepository.findAll();
+    public List<Viagem> listar(ViagemParams params, String matricula) {
+        Specification<Viagem> spec = ViagemSpecification.comFiltros(params, matricula);
+        return viagemRepository.findAll(spec);
     }
 
     public void deletar(Viagem viagem) {
@@ -99,11 +102,19 @@ public class ViagemService {
         }
     }
 
-    public List<Viagem> listarPorEmpregado(String matricula) {
-        return viagemRepository.findBySolicitanteMatricula(matricula);
-    }
-
     public List<Viagem> listarPorStatus(String statusDescricao) {
         return viagemRepository.findBySituacaoDescricao(statusDescricao);
+    }
+
+    public Long contarTodas() {
+        return viagemRepository.count();
+    }
+
+    public Long contarPorSituacao(String situacao) {
+        return viagemRepository.countBySituacaoDescricaoIgnoreCase(situacao);
+    }
+
+    public String obterDestinoMaisVisitado() {
+        return viagemRepository.findDestinoMaisVisitado();
     }
 }
