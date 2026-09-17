@@ -58,4 +58,8 @@ public class DespesaService {
 
         return new ResumoFinanceiroDTO(viagem, despesas);
     }
+
+    public List<Despesa> listarPorViagem(Viagem viagem) {
+        return despesaRepository.findByViagemNumero(viagem.getNumero());
+    }
 }
