@@ -13,6 +13,7 @@ import unioeste.com.br.gestaoviagem.tipodespesa.domain.TipoDespesa;
 import unioeste.com.br.gestaoviagem.viagem.domain.Viagem;
 import unioeste.com.br.gestaoviagem.viagem.service.ViagemService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -61,5 +62,9 @@ public class DespesaService {
 
     public List<Despesa> listarPorViagem(Viagem viagem) {
         return despesaRepository.findByViagemNumero(viagem.getNumero());
+    }
+
+    public BigDecimal calcularTotalGastoGeral() {
+        return despesaRepository.somarTotalGasto();
     }
 }

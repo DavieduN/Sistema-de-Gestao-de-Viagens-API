@@ -34,6 +34,7 @@ public class SecurityConfigurations {
                     req.requestMatchers(HttpMethod.POST, "/cargo/**", "/area/**").hasRole("GESTOR");
                     req.requestMatchers(HttpMethod.PUT, "/cargo/**", "/area/**").hasRole("GESTOR");
                     req.requestMatchers(HttpMethod.DELETE, "/cargo/**", "/area/**").hasRole("GESTOR");
+                    req.requestMatchers(HttpMethod.GET, "/indicadores").hasRole("GESTOR");
 
                     req.anyRequest().authenticated();
                 })

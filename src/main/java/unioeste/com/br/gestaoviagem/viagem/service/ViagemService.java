@@ -105,4 +105,16 @@ public class ViagemService {
     public List<Viagem> listarPorStatus(String statusDescricao) {
         return viagemRepository.findBySituacaoDescricao(statusDescricao);
     }
+
+    public Long contarTodas() {
+        return viagemRepository.count();
+    }
+
+    public Long contarPorSituacao(String situacao) {
+        return viagemRepository.countBySituacaoDescricaoIgnoreCase(situacao);
+    }
+
+    public String obterDestinoMaisVisitado() {
+        return viagemRepository.findDestinoMaisVisitado();
+    }
 }
